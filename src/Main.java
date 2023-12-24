@@ -47,7 +47,9 @@ public class Main {
         }
 															//Verification d'une entree d'un chemin dans l'argument 
 			File f = new File(fileName);
-			
+			System.out.println(Softaware.convertir(arguments));
+			arguments = Softaware.convertir(arguments);
+			System.out.println(Softaware.compare(arguments,"[C,A,D]"));
 			if (f.exists()) {
 				String fileContent;
 				try {
@@ -57,11 +59,9 @@ public class Main {
 						System.out.println(Softaware.VECO(g,arguments));
 					}
 					if("DC-CO".equals(operation)) {
-					
-						System.out.println(fileContent);
-					    g = FormaterEntree.formaterEntree(fileContent);
+						String s = arguments.substring(1, 2);
+						System.out.println(Softaware.DCCO(g,s));
 						
-						g.trouverSoluComplete();
 					}
 					if("DS-CO".equals(operation)) {
 						
@@ -82,9 +82,7 @@ public class Main {
 					if("DS-ST".equals(operation)) {
 						
 					}
-					if("DC-ST".equals(operation)) {
-				
-					}
+					
 					
 				} catch (IOException e) {
 					

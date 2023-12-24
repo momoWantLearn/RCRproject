@@ -14,7 +14,7 @@ public class TestGraphe {
 		g.addContradiction("B", "D");
 
 		
-		System.out.println(g.trouverSoluPreferee());
+		
 	}
 
 }

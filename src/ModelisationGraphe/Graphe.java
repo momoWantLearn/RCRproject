@@ -56,6 +56,21 @@ public class Graphe {
 		}
 		return sString;
 	}
+	public String soluString(Vector<String> aInverser) {
+
+		if(aInverser.size()==0) {
+			return"[]";
+		}
+		String mot="[";
+		for(int i=0; i<aInverser.size()-1;i++) {
+			mot=mot+aInverser.get(i);
+			mot=mot+",";
+			
+		}
+		mot=mot+aInverser.get(aInverser.size()-1);
+		mot=mot+"]";
+		return mot;
+	}
 
 	/**
 	 * Ajoute un argument au Graphe
@@ -235,7 +250,6 @@ public class Graphe {
 
 		
 	}
-
 	/**
 	 * Test si une solution est admissible (en Indice)
 	 * @param solu Solution a tester
@@ -368,9 +382,46 @@ public class Graphe {
 		}
 		
 		for(int i = 0 ; i<admissible.size();i++) {
-			System.out.println(inverserSolu(admissible.get(i)));
+			System.out.println(soluString(inverserSolu(admissible.get(i))));
+			
+			if(Softaware.compare(soluString(inverserSolu(admissible.get(i))),S)) {
+				System.out.println(soluString(inverserSolu(admissible.get(i))));
+				System.out.println(S);
+				return true ;
+			}
+		}
+		
+		return false;
+		
+	}
+	public boolean testCreduleComplete(String S) {
+		Vector<Integer> v = new Vector<Integer>(nbArg);
+		HashMap<Integer, Vector<Integer>> total = new HashMap<Integer, Vector<Integer>>();
+		HashMap<Integer, Vector<Integer>> admissible = new HashMap<Integer, Vector<Integer>>();
+		int nbAdmis = 0;
+
+		// Initialisation de v, Vecteur [0,1,2,3,...,nbArg]
+		for (int i = 0; i < nbArg; i++) {
+			v.add(i);
+		}
+
+		total = Permute.displaySubsets(v); 
+
+
+		for (Integer i : total.keySet()) {
+			Vector<Integer> vec = total.get(i);
+			if (this.isCompleteInt(vec, false)) {
+				admissible.put(nbAdmis, vec);
+				nbAdmis++;
+			}
+		}
+		
+		for(int i = 0 ; i<admissible.size();i++) {
+			System.out.println(soluString(inverserSolu(admissible.get(i))));
 			System.out.println(S);
-			if(inverserSolu(admissible.get(i)).equals(S)) {
+			if(soluString(inverserSolu(admissible.get(i))).contains(S)) {
+				System.out.println(soluString(inverserSolu(admissible.get(i))));
+				System.out.println(S);
 				return true ;
 			}
 		}
@@ -381,60 +432,6 @@ public class Graphe {
 
 
 
-	/**
-	 * Trouve toute les solution admissible et en retourne une aleatoire
-	 * @return solution preferee aleatoire
-	 */
-	public Vector<String> trouverSoluPreferee() {
-		Vector<Vector<Integer>> solusAdmissible = new Vector<Vector<Integer>>();
-		Vector<Vector<Integer>> solusPref = new Vector<Vector<Integer>>();
-		Vector<Integer> v = new Vector<Integer>(nbArg);
-		HashMap<Integer, Vector<Integer>> total = new HashMap<Integer, Vector<Integer>>();
 
-		for (int i = 0; i < nbArg; i++) {
-			v.add(i);
-		}
-
-		total = Permute.displaySubsets(v);
-
-		for (Integer i : total.keySet()) {
-			Vector<Integer> vec = total.get(i);
-			if (this.isCompleteInt(vec, false)) {
-				solusAdmissible.add(vec);
-			}
-
-			for(Vector<Integer> solu1 : solusAdmissible) {
-				for(Vector<Integer> solu2 : solusAdmissible) {
-					if(!solu1.equals(solu2) && Graphe.isIncluded(solu1, solu2)) {
-						if(solusPref.contains(solu1)) {
-							solusPref.remove(solu1);
-						}
-						if(!solusPref.contains(solu2)) {
-							solusPref.add(solu2);
-						}
-						
-					}
-				}
-			}
-		}
-		System.out.println(solusPref);
-		int random = (int) (Math.random() * solusPref.size());
-		return inverserSolu(solusPref.get(random));
-	}
-
-	/**
-	 * Teste si une solution est incluse dans une autre
-	 * @param solu1
-	 * @param solu2
-	 * @return Vrai si solu1 est incluse dans solu2, Faux sinon
-	 */
-	private static boolean isIncluded(Vector<Integer> solu1, Vector<Integer> solu2) {
-		for(Integer i : solu1) {
-			if(!solu2.contains(i)) {
-				return false;
-			}
-		}
-		return true;
-	}
 	
 }
