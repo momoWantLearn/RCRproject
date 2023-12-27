@@ -1,8 +1,28 @@
 package Formatage;
 
+
 import ModelisationGraphe.Graphe;
 
 public class FormaterEntree {
+	
+	
+	 
+	 
+	 
+	 public static String Convert(String entree) {
+	        // Diviser la chaîne en un tableau de lettres
+	        String[] lettres = entree.split(",");
+
+	        // Convertir chaque lettre en majuscule
+	        for (int i = 0; i < lettres.length; i++) {
+	            lettres[i] = lettres[i].toUpperCase();
+	        }
+
+	        // Joindre les lettres avec des virgules entre elles
+	        String resultat = "[" + String.join(",", lettres) + "]";
+
+	        return resultat;
+	    }
 
 	/**
 	 * Formatage du fichier lu
@@ -58,4 +78,5 @@ public class FormaterEntree {
 		throw new RuntimeException("Commande non valable");		
 
 	}
+	
 }

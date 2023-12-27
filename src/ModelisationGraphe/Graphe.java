@@ -1,6 +1,9 @@
 package ModelisationGraphe;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 public class Graphe {
@@ -171,85 +174,7 @@ public class Graphe {
 
 		
 	}
-	/**
-	 * Test si une solution est admissible (en String)
-	 * @param solu Solution a tester
-	 * @param msg Vrai si on veut des messages d'erreurs
-	 * @return Vraie si Admissible, Faux sinon
-	 */
-	public boolean isComplete(Vector<String> ensemble, boolean msg) {
-		Vector<Integer> solu = new Vector<Integer>();
 
-		for (String s : ensemble) {
-			solu.add(args.get(s));
-		}
-
-		
-		Vector<Integer> def = new Vector<Integer>();
-		Vector<Integer> att = new Vector<Integer>();
-		
-
-		for (Integer s : solu) {
-			for (int i = 0; i < nbArg; i++) {
-				if (matrice[s][i] == 1 && !att.contains(i)) {
-					att.add(i);
-				}
-				if (matrice[i][s] == 1 && !def.contains(i)) {
-					def.add(i);
-				}
-			}
-		}
-		
-		/**
-		 * Si un element de la solution attaque un autre element de la solution on retourne faux
-		 */
-		for (Integer i : att) {
-			if (solu.contains(i)) {
-				if(msg) {
-					System.out.println("L'argument "+this.argsInverse.get(i)+" est attaqué par un membre de la solution!");
-				}return false;
-			}
-		}
-		/**
-		 * Si tout les elements de defend ne sont pas compris dans attaque on retourne faux
-		 */
-		for (Integer i : def) {
-			if (!att.contains(i)) {
-				if(msg) {
-				System.out.println("L'agument "+this.argsInverse.get(i)+" n'est pas défendu dans la solution!");
-				}
-				return false;
-			}
-		}
-		System.out.println("cest sol "+solu);
-		System.out.println("cest att "+(att));
-		System.out.println("cest def "+def);
-		for (Integer i : att) {
-			for (int j = 0; j < nbArg; j++) {
-				if (matrice[i][j] == 1 && matrice[j][i]==0 && !att.contains(j)) {
-					
-					if (!(solu.contains(j))) {
-						System.out.println(i);
-						System.out.println(j);
-						return false ;
-					}
-					;
-				}
-				
-			}
-		}
-		
-		System.out.println("cest sol "+solu);
-		System.out.println("cest att "+(att));
-		System.out.println("cest def "+def);
-		System.out.println("----------------------------------");
-		return true;
-		
-
-		
-
-		
-	}
 	/**
 	 * Test si une solution est admissible (en Indice)
 	 * @param solu Solution a tester
@@ -271,7 +196,26 @@ public class Graphe {
 				}
 			}
 		}
-		
+		Vector<Integer> neverAtt = new Vector<Integer>();
+		boolean never = true ;
+		for (int i=0;i<nbArg;i++) {
+			for (int j = 0 ; j<nbArg ; j++) {
+				if(matrice[j][i]==1) {
+					never = false;
+				}
+			}
+			if(never) {
+				neverAtt.add(i);
+			}
+		}
+		if(neverAtt.size()==0 && solu.size()==0) {
+			return false;
+		}
+		for(Integer i : neverAtt) {
+			if(!solu.contains(i)) {
+				return false;
+			}
+		}
 		/**
 		 * Si un element de la solution attaque un autre element de la solution on retourne faux
 		 */
@@ -364,7 +308,7 @@ public class Graphe {
 		HashMap<Integer, Vector<Integer>> total = new HashMap<Integer, Vector<Integer>>();
 		HashMap<Integer, Vector<Integer>> admissible = new HashMap<Integer, Vector<Integer>>();
 		int nbAdmis = 0;
-
+		
 		// Initialisation de v, Vecteur [0,1,2,3,...,nbArg]
 		for (int i = 0; i < nbArg; i++) {
 			v.add(i);
@@ -384,7 +328,7 @@ public class Graphe {
 		for(int i = 0 ; i<admissible.size();i++) {
 			System.out.println(soluString(inverserSolu(admissible.get(i))));
 			
-			if(Softaware.compare(soluString(inverserSolu(admissible.get(i))),S)) {
+			if(Compare(soluString(inverserSolu(admissible.get(i))),S)) {
 				System.out.println(soluString(inverserSolu(admissible.get(i))));
 				System.out.println(S);
 				return true ;
@@ -429,6 +373,14 @@ public class Graphe {
 		return false;
 		
 	}
+	public static boolean Compare(String chaine1, String chaine2) {
+        // Convertir les chaînes en ensembles (sets) après avoir retiré les crochets
+        Set<String> ensemble1 = new HashSet<>(Arrays.asList(chaine1.replaceAll("[\\[\\]]", "").split(",")));
+        Set<String> ensemble2 = new HashSet<>(Arrays.asList(chaine2.replaceAll("[\\[\\]]", "").split(",")));
+
+        // Vérifier si les ensembles sont égaux
+        return ensemble1.equals(ensemble2);
+    }
 
 
 

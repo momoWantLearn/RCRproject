@@ -2,6 +2,7 @@ package Formatage;
 
 import java.util.Vector;
 
+
 import ModelisationGraphe.Graphe;
 
 public class TestFormatage {
@@ -11,6 +12,7 @@ public class TestFormatage {
 		
 		try {
 			Graphe g = FormaterEntree.formaterEntree(fileContent);
+			System.out.println(g);
 			
 		}catch(RuntimeException e) {
 			System.out.println(e.getMessage());
@@ -22,8 +24,6 @@ public class TestFormatage {
 		v.add("A3");
 		v.add("A4");
 		
-		System.out.println(FormaterSortie.formaterSortie(v));
-		System.out.println();
 	}
 
 }

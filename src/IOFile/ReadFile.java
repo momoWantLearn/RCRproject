@@ -13,10 +13,17 @@ public class ReadFile {
 	 */
 	public static String readFile(String filePath) throws IOException {
 		String data = "";							
-		File file = new File(filePath);				
+		File file = new File(filePath);		
+		String l ="";
 		Scanner myReader = new Scanner(file);		
-		while (myReader.hasNextLine()) {		
-			data += myReader.nextLine();			
+		while (myReader.hasNextLine()) {
+			l=myReader.nextLine();
+			if(l.substring(l.length()-1, l.length()).equals(".")) {
+				data += l;
+			}else {
+				data = data+l+".";
+			}
+						
 		}
 		myReader.close();
 		return data;							
