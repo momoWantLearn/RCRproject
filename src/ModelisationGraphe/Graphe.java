@@ -373,6 +373,40 @@ public class Graphe {
 		return false;
 		
 	}
+	public boolean testSepticalComplete(String S) {
+		Vector<Integer> v = new Vector<Integer>(nbArg);
+		HashMap<Integer, Vector<Integer>> total = new HashMap<Integer, Vector<Integer>>();
+		HashMap<Integer, Vector<Integer>> admissible = new HashMap<Integer, Vector<Integer>>();
+		int nbAdmis = 0;
+
+		// Initialisation de v, Vecteur [0,1,2,3,...,nbArg]
+		for (int i = 0; i < nbArg; i++) {
+			v.add(i);
+		}
+
+		total = Permute.displaySubsets(v); 
+
+
+		for (Integer i : total.keySet()) {
+			Vector<Integer> vec = total.get(i);
+			if (this.isCompleteInt(vec, false)) {
+				admissible.put(nbAdmis, vec);
+				nbAdmis++;
+			}
+		}
+		
+		for(int i = 0 ; i<admissible.size();i++) {
+			System.out.println(soluString(inverserSolu(admissible.get(i))));
+			System.out.println(S);
+			if(!(soluString(inverserSolu(admissible.get(i))).contains(S))) {
+				
+				return false ;
+			}
+		}
+		
+		return true;
+		
+	}
 	public static boolean Compare(String chaine1, String chaine2) {
         // Convertir les chaînes en ensembles (sets) après avoir retiré les crochets
         Set<String> ensemble1 = new HashSet<>(Arrays.asList(chaine1.replaceAll("[\\[\\]]", "").split(",")));

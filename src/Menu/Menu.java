@@ -53,13 +53,10 @@ public class Menu {
 			if("DC-CO".equals(method)) {
 				String s = this.arguments.substring(1,this.arguments.length()-1);
 				System.out.println(g.testCreduleComplete(s));
-				
 			}
 			if("DS-CO".equals(method)) {
-				
-				System.out.println(fileContent);
-			    g = FormaterEntree.formaterEntree(fileContent);
-				g.trouverSoluComplete();
+				String s = this.arguments.substring(1,this.arguments.length()-1);
+				System.out.println(g.testSepticalComplete(s));
 			}
 			if("VE-ST".equals(method)) {
 				
@@ -73,7 +70,7 @@ public class Menu {
 			if("DS-ST".equals(method)) {
 				
 			
-		             }
+		        }
 		}
 		public String getArguments(){
 			return arguments;
